@@ -1,0 +1,91 @@
+{
+  "project_info": {
+    "project_number": "814167768573",
+    "firebase_url": "https://flutter-app-63854-default-rtdb.firebaseio.com",
+    "project_id": "flutter-app-63854",
+    "storage_bucket": "flutter-app-63854.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:814167768573:android:824d796fea35f98ddfed94",
+        "android_client_info": {
+          "package_name": "com.example.mobileapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "814167768573-rik7546afdn0hpef3i8kidhn6440ravu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOzoPTQOR7QJosoxWbJ-XzbUSxcFI1BEg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "814167768573-rik7546afdn0hpef3i8kidhn6440ravu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "814167768573-4vq7keqc5f19157lpf1d59n3n5j2vjgg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.tanle"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:814167768573:android:c5b8f1adf71f0440dfed94",
+        "android_client_info": {
+          "package_name": "com.example.tanle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "814167768573-65jnnnjkptffmi3raut99mgp833l3ptc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tanle",
+            "certificate_hash": "c21de1c231b244479ce1be7316ad7a728ecbdd2f"
+          }
+        },
+        {
+          "client_id": "814167768573-rik7546afdn0hpef3i8kidhn6440ravu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOzoPTQOR7QJosoxWbJ-XzbUSxcFI1BEg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "814167768573-rik7546afdn0hpef3i8kidhn6440ravu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "814167768573-4vq7keqc5f19157lpf1d59n3n5j2vjgg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.tanle"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
