@@ -3,9 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tanle/booking_summary.dart';
 import 'package:tanle/bottom_navbar.dart';
+import 'package:tanle/nav_pages/favorites_nav.dart';
 
 class BoardDetailsScreen extends StatelessWidget {
-  const BoardDetailsScreen({Key? key}) : super(key: key);
+  const BoardDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class BoardDetailsScreen extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.push(
               context,
@@ -33,10 +34,16 @@ class BoardDetailsScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.share),
+            icon: const Icon(Icons.plus_one),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              // Corrected Navigator.push arguments
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const FavoritePage()),
+              );
+            },
             icon: const Icon(Icons.favorite),
           ),
         ],
@@ -45,7 +52,7 @@ class BoardDetailsScreen extends StatelessWidget {
         stream: FirebaseFirestore.instance.collection('Records').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           }
 
           if (snapshot.hasError) {
@@ -53,20 +60,20 @@ class BoardDetailsScreen extends StatelessWidget {
           }
 
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Text('No data available');
+            return const Text('No data available');
           } else {
             // Assuming there's only one document in the collection
             var data = snapshot.data!.docs[0].data() as Map<String, dynamic>;
 
             // Extracting data from Firebase
             final boardingHouseName = data['Name'] ?? '';
-            final imageUrl = data['Image_Url'] ?? '';
+
             final discount = data['Discount'] ?? '';
             final starRating = data['star_rating'] ?? '';
             final location = data['Location'] ?? '';
             final description = data['Description'] ?? '';
             final contactInfo = data['Contact_info'] ?? Map<String, dynamic>();
-            final galleryImages = data['Gallery_images'] ?? '';
+            final galleryImages = data['Gallery_images'] ?? [];
             final pricePerMonth = data['Price'] ?? '';
 
             // Now, you can use the fetched data to update your UI
@@ -100,8 +107,8 @@ class BoardDetailsScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            boardingHouseName,
-                            style: TextStyle(
+                            boardingHouseName ?? '',
+                            style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
@@ -116,18 +123,18 @@ class BoardDetailsScreen extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 8.0),
                       child: Column(
                         children: [
                           Row(
                             children: [
                               Text('$discount% Off',
-                                  style: TextStyle(color: Colors.blue)),
+                                  style: const TextStyle(color: Colors.blue)),
                               const SizedBox(width: 20),
                               Row(
                                 children: [
-                                  Icon(Icons.star, color: Colors.amber),
+                                  const Icon(Icons.star, color: Colors.amber),
                                   Text('$starRating (120 Reviews)'),
                                 ],
                               ),
@@ -137,67 +144,68 @@ class BoardDetailsScreen extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 8.0),
                       child: Row(
                         children: [
-                          Icon(Icons.location_on, size: 10),
+                          const Icon(Icons.location_on, size: 10),
                           const SizedBox(width: 8),
                           Text(
-                            location,
-                            style: TextStyle(fontSize: 10),
+                            location ?? '',
+                            style: const TextStyle(fontSize: 10),
                           ),
                         ],
                       ),
                     ),
                     Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 8.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Description',
+                          const Text('Description',
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 16)),
                           const SizedBox(height: 8),
                           Text(
-                            description,
-                            style: TextStyle(fontSize: 10),
+                            description ?? '',
+                            style: const TextStyle(fontSize: 10),
                           ),
                         ],
                       ),
                     ),
                     Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 8.0),
                       child: Row(
                         children: [
-                          Text('Contact Info',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
+                          Text(contactInfo['ContactInfo'] ?? '',
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold)),
                         ],
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: Row(
                         children: [
-                          CircleAvatar(
+                          const CircleAvatar(
                             child: Icon(Icons.person),
                           ),
                           const SizedBox(width: 10),
                           Text(
-                            contactInfo['name'] ?? '',
-                            style: TextStyle(
+                            contactInfo['Name'] ?? '',
+                            style: const TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.bold),
                           ),
-                          Spacer(),
-                          Icon(Icons.call_sharp),
+                          const Spacer(),
+                          const Icon(Icons.call_sharp),
                           const SizedBox(width: 5),
-                          Icon(Icons.mail),
+                          const Icon(Icons.mail),
                         ],
                       ),
                     ),
-                    Padding(
+                    const Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                       child: Row(
@@ -214,10 +222,10 @@ class BoardDetailsScreen extends StatelessWidget {
                     Row(
                       children: [
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Text(
-                            '$pricePerMonth/ Months',
-                            style: TextStyle(
+                            '₱ $pricePerMonth / Months',
+                            style: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                         ),

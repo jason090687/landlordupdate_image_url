@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tanle/bottom_navbar.dart';
+import 'package:tanle/receipt.dart';
 
 class MyEndPage extends StatelessWidget {
   const MyEndPage({super.key});
@@ -72,7 +73,10 @@ class MyEndPage extends StatelessWidget {
               onPressed: () {
                 // Replace with your e-receipt viewing logic
                 // You can also open a webpage here if your e-receipt is online
-                print("View e-receipt");
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ReceiptView()),
+                );
               },
               child: const Text(
                 "VIEW E-RECEIPT",

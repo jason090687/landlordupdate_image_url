@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tanle/components/insert_tile.dart';
 import 'package:tanle/pages/login_or_register.dart';
-
-import 'landlord_page.dart';
 
 class MyStart extends StatelessWidget {
   const MyStart({super.key});
@@ -122,7 +121,7 @@ class MyStart extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const MyLandPage()),
+                          builder: (context) => const MyInsertTile()),
                     );
                   },
                   icon: const Icon(Icons.arrow_upward),

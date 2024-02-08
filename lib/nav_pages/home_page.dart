@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tanle/checkin_page.dart';
 import 'package:tanle/components/aminities_tile.dart';
-import 'package:tanle/components/boarding_list.dart';
 import 'package:tanle/components/boarding_tile.dart';
 import 'package:tanle/details_page.dart';
 import 'package:tanle/search_page.dart';
+
+import '../components/boarding_list.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -19,15 +20,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   DateTime selectedDate = DateTime.now();
-
-  void navigatorBoardingDetails(int index) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const BoardDetailsScreen(),
-      ),
-    );
-  }
+  final TextEditingController _searchController = TextEditingController();
 
   final List<Amenity> amenities = [
     Amenity(
@@ -43,7 +36,7 @@ class _HomePageState extends State<HomePage> {
       stream: FirebaseFirestore.instance.collection('Records').snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         }
 
         if (snapshot.hasError) {
@@ -51,7 +44,7 @@ class _HomePageState extends State<HomePage> {
         }
 
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-          return Text('No data available');
+          return const Text('No data available');
         }
 
         return Padding(
@@ -93,7 +86,7 @@ class _HomePageState extends State<HomePage> {
                                       bottom: MediaQuery.of(context)
                                           .viewInsets
                                           .bottom),
-                                  child: CustomBottomSheet(),
+                                  child: const CustomBottomSheet(),
                                 ),
                               );
                             },
@@ -167,9 +160,10 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(height: 10),
                       Row(
                         children: [
-                          const Expanded(
+                          Expanded(
                             child: TextField(
-                              decoration: InputDecoration(
+                              controller: _searchController,
+                              decoration: const InputDecoration(
                                 contentPadding: EdgeInsets.symmetric(
                                     vertical: 8, horizontal: 12),
                                 border: OutlineInputBorder(
@@ -227,39 +221,41 @@ class _HomePageState extends State<HomePage> {
                       ),
                       const SizedBox(height: 10),
                       SizedBox(
-                          height: 280,
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: List.generate(
-                                min(snapshot.data!.docs.length, 50),
-                                (index) {
-                                  var data = snapshot.data!.docs[index].data()
-                                      as Map<String, dynamic>;
-                                  return BoardingTile(
-                                    boarding: BoardingHouse(
-                                      imageUrl: data['imageUrl'] ?? '',
-                                      discount: data['Discount'] ?? '',
-                                      rating: data['Rating'] ?? '',
-                                      name: data['Name'] ?? '',
-                                      location: data['Location'] ?? '',
-                                      price: data['Price'] ?? '',
-                                    ),
-                                    onTap: () {
-                                      // Handle onTap if needed
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const BoardDetailsScreen(),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
+                        height: 280,
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: List.generate(
+                              min(snapshot.data!.docs.length, 50),
+                              (index) {
+                                var data = snapshot.data!.docs[index].data()
+                                    as Map<String, dynamic>;
+                                String price = data['Price'].toString();
+                                return BoardingTile(
+                                  boarding: BoardingHouse(
+                                    imageUrl: data['imageUrl'] ?? '',
+                                    discount: data['Discount'] ?? '',
+                                    rating: data['Rating'] ?? '',
+                                    name: data['Name'] ?? '',
+                                    location: data['Location'] ?? '',
+                                    price: price,
+                                  ),
+                                  onTap: () {
+                                    // Handle onTap if needed
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const BoardDetailsScreen(),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
                             ),
-                          )),
+                          ),
+                        ),
+                      ),
                       const SizedBox(height: 40),
                       const Text('Boarding House Amenities',
                           style: TextStyle(

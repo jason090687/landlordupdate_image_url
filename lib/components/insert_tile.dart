@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tanle/nav_pages/home_page.dart';
 
 class MyInsertTile extends StatefulWidget {
   const MyInsertTile({Key? key}) : super(key: key);
@@ -18,6 +19,27 @@ class _MyInsertTileState extends State<MyInsertTile> {
   final TextEditingController priceController = TextEditingController();
   final TextEditingController contactInfoController = TextEditingController();
 
+  bool validateFields() {
+    if (imageUrlInfoController.text.isEmpty ||
+        nameController.text.isEmpty ||
+        discountController.text.isEmpty ||
+        ratingController.text.isEmpty ||
+        descriptionController.text.isEmpty ||
+        locationController.text.isEmpty ||
+        priceController.text.isEmpty ||
+        contactInfoController.text.isEmpty) {
+      // Show an indication that fields are required
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('All fields are required.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      return false;
+    }
+    return true;
+  }
+
   Future<void> insertData(BuildContext context) async {
     CollectionReference collection =
         FirebaseFirestore.instance.collection('Records');
@@ -33,7 +55,6 @@ class _MyInsertTileState extends State<MyInsertTile> {
         'Location': locationController.text,
         'Price': priceController.text,
         'ContactInfo': contactInfoController.text,
-        'ImageUrl': imageUrlInfoController.text,
       });
 
       // Show an indication that data is inserted
@@ -44,7 +65,7 @@ class _MyInsertTileState extends State<MyInsertTile> {
         ),
       );
 
-      // Clear text controllers and reset imageFile after successful insertion
+      // Clear text controllers after successful insertion
       imageUrlInfoController.clear();
       nameController.clear();
       discountController.clear();
@@ -53,6 +74,12 @@ class _MyInsertTileState extends State<MyInsertTile> {
       locationController.clear();
       priceController.clear();
       contactInfoController.clear();
+
+      // Navigate to another page (replace 'YourOtherPage' with your actual page)
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
     } catch (e) {
       // Handle errors if any
       print('Error inserting data: $e');
@@ -71,7 +98,7 @@ class _MyInsertTileState extends State<MyInsertTile> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
@@ -237,7 +264,9 @@ class _MyInsertTileState extends State<MyInsertTile> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    insertData(context);
+                    if (validateFields()) {
+                      insertData(context);
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
